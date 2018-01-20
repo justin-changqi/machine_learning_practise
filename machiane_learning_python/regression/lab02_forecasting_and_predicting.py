@@ -26,6 +26,7 @@ df.fillna(-99999, inplace=True)
 # when will go out and do this.
 forecast_out = int(math.ceil(0.01*len(df)))
 # print (forecast_out, "days")
+# shift(negtive) shift down, shift(positive) shift up
 df['label'] = df[forecast_col].shift(-forecast_out)
 
 # print (df.head())
@@ -35,6 +36,7 @@ X = np.array(df.drop(['label'], 1))
 X = preprocessing.scale(X)
 X = X[:-forecast_out]
 # use to predict against
+# X_lately = X[len(X-forecast_out):len(X)-1]
 X_lately = X[-forecast_out:]
 
 df.dropna(inplace=True)
@@ -58,7 +60,7 @@ df['Forecast'] = np.nan
 
 last_day = df.iloc[-1].name
 last_unix = last_day.timestamp()
-one_day = 86400
+one_day = 86400 # sec in one day
 next_unix = last_unix + one_day
 
 for i in forecast_set:

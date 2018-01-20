@@ -19,10 +19,15 @@ df.fillna(-99999, inplace=True)
 # math.ceil(x) = smallest integer value greater than or equal to x.
 # We are try to predict out 10 percent of the dataframe and you'll see that actually
 # when will go out and do this.
+# number of predict
 forecast_out = int(math.ceil(0.01*len(df)))
 print (forecast_out)
 df['label'] = df[forecast_col].shift(-forecast_out)
+# print (df['label'])
+# print (df[forecast_col])
+# delect the the column which value is NA
 df.dropna(inplace=True)
+# print (df['label'])
 
 # print (df.head())
 
@@ -32,6 +37,7 @@ y = np.array(df['label'])
 X = preprocessing.scale(X)
 
 # 20% of data we want to actually use as testing data.
+# Generate the training and test data
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
 # classifier
 clf = LinearRegression(n_jobs=-1)
